@@ -1,0 +1,59 @@
+nasa:
+  urls:
+    base: "https://exoplanetarchive.ipac.caltech.edu/TAP/sync"
+    kepler_table: "cumulative"
+    k2_table: "k2pandc"
+    tess_table: "toi"
+  light_curve:
+    max_attempts: 3  # Maximum attempts to download light curve data
+    timeout: 60      # Timeout (seconds) for light curve download
+    cache_dir: "data/light_curves"  # Directory for caching light curve data
+model:
+  default_hyperparams:
+    random_forest:
+      n_estimators: 100
+      max_depth: null
+      min_samples_split: 2
+      min_samples_leaf: 1
+    gradient_boosting:
+      n_estimators: 100
+      learning_rate: 0.1
+      max_depth: 3
+    xgboost:
+      n_estimators: 100
+      learning_rate: 0.1
+      max_depth: 6
+      subsample: 1.0
+    neural_net:
+      epochs: 50
+      batch_size: 32
+      hidden_size: 128
+      dropout_rate: 0.2
+  subsample_for_cv: 10000
+  max_features: 20  # Maximum number of features to use in model training
+plot:
+  style: "viridis"
+  alt_text: true
+  figure_size:
+    width: 1000
+    height: 800
+app:
+  random_state: 42
+  upload_max_size_mb: 250
+  global_seed: 42
+  retry_attempts: 3
+  languages: ["EN", "ES", "ZH"]  # For future i18n
+  logging:
+    level: "INFO"  # Log level (DEBUG, INFO, WARNING, ERROR)
+    max_size_mb: 500  # Maximum log file size before rotation
+preprocessing:
+  imputation:
+    method: "knn"  # Imputation method (knn, mean, median)
+    n_neighbors: 5  # Number of neighbors for KNN imputation
+  scaling:
+    method: "standard"  # Scaling method (standard, minmax)
+  light_curve:
+    periodogram:
+      min_period: 0.1  # Minimum period (days) for periodogram
+      max_period: 1000  # Maximum period (days) for periodogram
+      oversample_factor: 10  # Oversampling factor for periodogram
